@@ -16,14 +16,14 @@ services:
       #   points to the files you want to index.
       # The path of the mounted directory (right hand side),
       #   must match the path prefix in your config file.
-      - ./tests/data/org/:/data/org/
-      - ./tests/data/images/:/data/images/
-      - ./tests/data/markdown/:/data/markdown/
-      - ./tests/data/pdf/:/data/pdf/
+      - /mnt/notes/org/:/data/org/
+      - /mnt/Moes_fotos/:/data/images/
+      - /mnt/notes/notes-sync/notes/obsidian/:/data/markdown/
+      - /mnt/notes/notes-sync/notes/paperless/media/documents/archive/:/data/pdf/
       # Embeddings and models are populated after the first run
       # You can set these volumes to point to empty directories on host
-      - ./tests/data/embeddings/:/root/.khoj/content/
-      - ./tests/data/models/:/root/.khoj/search/
+      - /opt/khoj/embeddings/:/root/.khoj/content/
+      - /opt/khoj/models/:/root/.khoj/search/
       - khoj_config:/root/.khoj/
       - sentence_tranformer_models:/root/.cache/torch/sentence_transformers
     # Use 0.0.0.0 to explicitly set the host ip for the service on the container. https://pythonspeed.com/articles/docker-connection-refused/
