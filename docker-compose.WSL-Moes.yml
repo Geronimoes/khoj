@@ -1,0 +1,35 @@
+version: "3.9"
+services:
+  server:
+    image: ghcr.io/khoj-ai/khoj:latest
+    ports:
+      # If changing the local port (left hand side), no other changes required.
+      # If changing the remote port (right hand side),
+      #   change the port in the args in the build section,
+      #   as well as the port in the command section to match
+      - "42110:42110"
+    working_dir: /app
+    volumes:
+      - .:/app
+      # These mounted volumes hold the raw data that should be indexed for search.
+      # The path in your local directory (left hand side)
+      #   points to the files you want to index.
+      # The path of the mounted directory (right hand side),
+      #   must match the path prefix in your config file.
+      #- /mnt/notes/org/:/data/org/
+      - /mnt/h/Fotos/:/data/images/
+      - /mnt/c/Users/MoesJeroen(UCM)/Documents/SYNCTHING/Notes/:/data/markdown/
+      #- /mnt/notes/notes-sync/notes/paperless/media/documents/archive/:/data/pdf/
+      # Embeddings and models are populated after the first run
+      # You can set these volumes to point to empty directories on host
+      - /opt/khoj/embeddings/:/root/.khoj/content/
+      - /opt/khoj/models/:/root/.khoj/search/
+      - khoj_config:/root/.khoj/
+      - sentence_tranformer_models:/root/.cache/torch/sentence_transformers
+    # Use 0.0.0.0 to explicitly set the host ip for the service on the container. https://pythonspeed.com/articles/docker-connection-refused/
+    command: --host="0.0.0.0" --port=42110 -vv
+
+
+volumes:
+  khoj_config:
+  sentence_tranformer_models:
